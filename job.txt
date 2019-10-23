@@ -1,0 +1,81 @@
+#include<iostream>
+using namespace std;
+
+class Queue{
+    int *que,front,rear,max;
+    public:
+        Queue(int queue_size){
+            max=queue_size;
+            que=new int[max];
+            front=0;
+            rear=-1;
+        }
+        int isEmpty(){
+            if(rear==-1)
+                return 1;
+            else
+                return 0;
+        }
+        int isFull(){
+            if(rear==max-1)
+                return 1;
+            else
+                return 0;
+        }
+        void add(int x){
+            if(!isFull())
+                que[++rear]=x;
+            else
+                cout<<"\nQueue is full.";
+        }
+        void del(){
+            if(!isEmpty()){
+                que[front++];
+                cout<<"\nJob deleted successfully.";
+            }
+            else
+                cout<<"\nThere are no jobs to delete.";
+        }
+        void display(){
+            for(int i=front;i<=rear;i++)
+                cout<<que[i]<<"\t";
+        }
+};
+
+int main()
+{
+    Queue que(5);
+    int ch,job;
+    do
+    {
+        cout<<"\n\n-------------------Jobs Menu-------------------\n";
+        cout<<"\n1. Add new job";
+        cout<<"\n2. Delete a job";
+        cout<<"\n3. Display all jobs";
+        cout<<"\n4. Exit";
+
+        cout<<"\n\nEnter a choice: ";
+        cin>>ch;
+
+        switch(ch){
+            case 1:
+                cout<<"\nEnter a job number ";
+                cin>>job;
+                que.add(job); // add new job if queue is not full
+                break;
+            case 2:
+                que.del(); // delete the job if queue is not empty
+                break;
+            case 3:
+                cout<<"\nJobs in queue are: ";
+                que.display(); // displaying the jobs in queue
+                break;
+            case 4: exit(0);break;
+            default:
+                cout<<"\nInvalid option.";
+                break;
+        }
+    } while (ch!=4);
+
+    return 0;
+}

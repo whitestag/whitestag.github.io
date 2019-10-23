@@ -1,0 +1,148 @@
+#include <iostream>
+#include<cstdlib>
+using namespace std;
+
+class SetOperations{
+	public:
+		int M, a, b;
+		int ClassSE[60],SetA[20], SetB[20];
+		void createClass();
+		void createSetA();
+		void createSetB(); //Set of stud that play badminton
+		void unionAB();
+		void intersection();
+		void difference();
+		void complement();
+
+};
+
+void SetOperations :: createClass(){
+	cout<<"Enter No. of students in class"<<endl;
+	cin>>M;
+
+	for(int i = 1; i<=M; i++)
+		ClassSE[i] = i;
+}
+void SetOperations :: createSetA(){
+	cout<<"Enter the no. of student who play cricket"<<endl;
+	cin>>a;
+	cout<<"Enter the roll no. of stud who play cricket"<<endl;
+	for(int i = 1; i<=a; i++)
+		cin>>SetA[i];
+}
+void SetOperations :: createSetB(){
+	cout<<"Enter the no. of student who play badminton"<<endl;
+	cin>>b;
+	cout<<"Enter the roll no. of stud who play badminton"<<endl;
+	for(int i = 1; i<=b; i++)
+		cin>>SetB[i];
+}
+void SetOperations :: unionAB(){
+	int U[50], i, j, k;
+	for(i=1,j=1,k=1;i<=a&&j<=b;){
+	        if(SetA[i]<SetB[j])				
+	            U[k++]=SetA[i++];
+	        else if(SetA[i]>SetB[j])
+	        	U[k++]=SetB[j++];
+	        else{
+	            U[k++]=SetA[i++];
+	            j++;
+	        }
+	    }
+	if(i<=a){
+	        while(i<=a)
+	            U[k++]=SetA[i++];
+	    }
+	else if(j<=b){
+	       while(j<=b)
+	            U[k++]=SetB[j++];
+	    }
+	 cout<<"\nUnion (students playing cricket or badminton)\n";
+	    for(i=1;i<k;i++)
+	        cout<<U[i]<<" ";
+	    cout<<endl;
+}
+void SetOperations :: intersection(){
+	int I[50], i, j, k=1;
+	for(i = 1; i<=a; i++)
+		for(j = 1; j<=b; j++)
+			if(SetA[i]==SetB[j])
+				I[k++]=SetA[i];
+	cout<<"\nIntersection (students playing cricket and badminton)\n";
+		    for(i=1;i<k;i++)
+		        cout<<I[i]<<" ";
+		    cout<<endl;
+}
+void SetOperations :: difference(){
+	int ch, i, j;
+		do{
+				int D[50], k=1;
+				cout<<"\n 1. Difference (students playing only cricket)"
+				    <<"\n 2. Difference (students playing only badminton)"
+				    <<"\n 3. Exit"<<endl;
+				cout<<"\n Enter your choice ";
+				cin>>ch;
+				switch(ch)
+				{
+				case 1:
+					for(i = 1; i<=a; i++){
+						int flag = 0;
+						for(j = 1; j<=b; j++){
+							if(SetA[i]==SetB[j])
+								flag = 1;
+						}
+						if(flag == 0)
+							D[k++]=SetA[i];
+					}
+
+					cout<<"\nDifference (students playing only cricket)\n";
+					for(i=1;i<k;i++)
+					    cout<<D[i]<<" ";
+					cout<<endl;
+					break;
+				case 2:
+					for(i = 1; i<=b; i++){
+						int flag = 0;
+						for(j = 1; j<=a; j++){
+							if(SetB[i]==SetA[j])
+								flag = 1;
+						}
+						if(flag == 0)
+							D[k++]=SetB[i];
+					}
+
+					cout<<"\nDifference (students playing only badminton)\n";
+					for(i=1;i<k;i++)
+					    cout<<D[i]<<" ";
+					cout<<endl;
+					break;
+				}
+		}while(ch != 3);
+}
+int main(){
+	SetOperations s;
+	int ch;
+	do{
+			cout<<"\n 1. Create a Class of M Students"
+			    <<"\n 2. Create a Set A (student playing cricket)"
+			    <<"\n 3. Create a Set B (student playing badminton)"
+			    <<"\n 4. Union (students playing cricket or badminton)"
+			    <<"\n 5. Intersection (students playing cricket and badminton)"
+			    <<"\n 6. Difference (students playing only cricket or badminton)"
+			    <<"\n 7. Exit"<<endl;
+			cout<<"\n Enter your choice ";
+			cin>>ch;
+			switch(ch)
+			{
+			case 1: s.createClass();break;
+			case 2: s.createSetA();break;
+			case 3: s.createSetB();break;
+			case 4: s.unionAB();break;
+			case 5: s.intersection();break;
+			case 6: s.difference();break;
+			case 7: exit(0);
+			}
+	}while(ch != 7);
+	return 0;
+}
+

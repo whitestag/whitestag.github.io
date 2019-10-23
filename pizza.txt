@@ -1,0 +1,94 @@
+// Implementation of pizza parlour
+#include<iostream>
+using namespace std;
+
+class CQueue{
+    int *cque,rear,front,max;
+
+    public:
+        CQueue(int queue_size){
+            max=queue_size;
+            cque=new int[max];
+            front=-1;
+            rear=-1;
+        }
+
+        int isEmpty(){
+            if(front==-1 || rear==-1)
+                return 1;
+            else
+                return 0;
+        }
+
+        int isFull(){
+            if(front==(rear+1)%max)
+                return 1;
+            else
+                return 0;
+        }
+
+        void add(int x){
+            if(isFull()){
+                cout<<"\nOrder is Full!!!";
+                return;
+            }else if(front==-1){
+                front=0;rear=0;
+                cque[rear]=x;
+            }else{
+                rear=(rear+1)%max;
+                cque[rear]=x;
+            }
+            //cque[rear]=x;
+        }
+        void del(){
+            if(front==rear){
+                front=rear=-1;
+            }else{
+                front=(front+1)%max;
+            }
+        }
+
+        void display(){
+            for(int i=front;i<=rear;i++){
+                cout<<cque[i]<<"\t";
+            }
+        }
+};
+
+int main()
+{
+    CQueue cque(5);
+    int ch,order;
+    do
+    {
+        cout<<"\n\n-------------------Pizza Parlour Order's Menu-------------------\n";
+        cout<<"\n1. Add new order";
+        cout<<"\n2. Delete the order";
+        cout<<"\n3. Display all orders";
+        cout<<"\n4. Exit";
+
+        cout<<"\n\nEnter a choice: ";
+        cin>>ch;
+
+        switch(ch){
+            case 1:
+                cout<<"\nEnter an order number ";
+                cin>>order;
+                cque.add(order); // add new order if queue is not full
+                break;
+            case 2:
+                cque.del(); // delete the order if queue is not empty
+                break;
+            case 3:
+                cout<<"\nTotal orders are: ";
+                cque.display(); // displaying the orders in queue
+                break;
+            case 4: exit(0);break;
+            default:
+                cout<<"\nInvalid option.";
+                break;
+        }
+    } while (ch!=4);
+
+    return 0;
+}

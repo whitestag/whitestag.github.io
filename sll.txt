@@ -1,0 +1,185 @@
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+class node{
+	int data;
+	node *next;
+
+	public:
+	node *create(node *head){
+		// create new list
+		head=new node;
+		head->data=0;
+		head->next=NULL;
+		return head;
+	}
+
+	void display(node *head){
+		// display list items
+		node *temp;
+		temp=head;
+		
+		while(temp->next!=NULL){
+			temp=temp->next;
+			cout<<temp->data<<"\t";
+		}
+	}
+
+	void insert_at_end(node *head, int x){
+		// insert new items in list
+		node *nw,*temp;
+		
+		nw=new node; // prepare new node
+		nw->data=x;
+		nw->next=NULL;
+
+		temp=head; // get head reference
+
+		while(temp->next!=NULL) // navigate to the last node
+			temp=temp->next;
+
+		temp->next=nw; // assign the prepared node to navigated node
+		head->data++; // increase the head counter
+	}
+
+	void del(node *head){
+		// delete negative items in list
+		node *temp,*t;
+		temp=head;
+
+		while(temp->next!=NULL){
+			if(temp->next->data<0){
+				t=temp->next; // select for detachment
+				temp->next=t->next; // next of detached one
+				delete t;
+				head->data--;
+			} else {
+				temp=temp->next;
+			}
+		}
+
+		display(head);
+	}
+
+	void separate_by_magnitude(node* head){
+		// create two separate lists for storing
+		// corresponding positive and negative numbers
+		node *negative,*positive,*temp;
+		negative=NULL;
+		positive=NULL;
+		negative=create(negative); // created head for negative list
+		positive=create(positive); // created head for positive list
+		temp=head; // selected the head of original list for further processing
+		while(temp->next!=NULL){ // navigate/traverse the list till the last element not occurred
+			if(temp->next->data<0){ // check for negative numbers i.e. numbers less than 0
+				// update to negative list
+				insert_at_end(negative,temp->next->data); // insert_at_end(node *head, int x); i.e. supply the head node and data
+			} else {
+				// update to positive list
+				insert_at_end(positive,temp->next->data); // numbers >0 are positive numbers and will be stored in this list
+			}
+			temp=temp->next; // increment the head to next node and feed back to the while loop until the last node i.e. NULL occurs.
+		}
+
+		cout<<"\n\nList of negative elements: ";
+		display(negative); // pass the negative head for displaying the negative list
+		cout<<"\n\nList of positive elements: ";
+		display(positive); // pass the positive head for displaying the positive list
+
+		cout<<"\n\nMerged list: ";
+		display(merge(negative,positive));
+	}
+
+	node *merge(node *neg,node *pos){
+		node *negative,*positive,*head;
+		negative=neg;
+		positive=pos;
+		head=create(head);
+		while(negative->next!=NULL && positive->next!=NULL){
+			if(negative->next->data<positive->next->data){
+				insert_at_end(head,negative->next->data);
+				negative=negative->next;
+			} else {
+				insert_at_end(head,positive->next->data);
+				positive=positive->next;
+			}
+		}
+
+		while(negative->next!=NULL){
+			insert_at_end(head,negative->next->data);
+			negative=negative->next;
+		}
+
+		while(positive->next!=NULL){
+			insert_at_end(head,positive->next->data);
+			positive=positive->next;
+		}
+
+		//head=sort(head);
+
+		return head;
+	}
+
+	node *sort(node *head){
+		node *temp,*temp0,*sorted_head;
+		temp=head;
+		while(temp->next!=NULL){
+			temp0=temp->next;
+			temp0=temp0->next;
+			if(temp->next->data>temp0->next->data){
+				insert_at_end(sorted_head,temp0->next->data);
+			} else {
+				insert_at_end(sorted_head,temp->next->data);
+			}
+			temp=temp->next;
+		}
+		return sorted_head;
+	}
+};
+
+int main()
+{
+	node s;
+	node *head=NULL;
+	
+	int ch,x;
+
+	do{
+		cout<<"\n\n**********List**********\n";
+		cout<<"\n1. Create list";
+		cout<<"\n2. Insert element";
+		cout<<"\n3. Delete negative elements";
+		cout<<"\n4. Separate lists for negative & positive elements, merging";
+		cout<<"\n5. Display list";
+		cout<<"\n6. Exit";
+		cout<<"\n\nEnter Operation: ";
+		cin>>ch;
+
+		switch(ch){
+			case 1:
+				head=s.create(head);
+				cout<<"\nList has been created.";
+				break;
+			case 2:
+				cout<<"\nEnter element ";
+				cin>>x;
+				s.insert_at_end(head,x);
+				cout<<"\nElement inserted.";
+				break;
+			case 3:
+				s.del(head); // delete the negative items
+				break;
+			case 4:
+				s.separate_by_magnitude(head);
+				break;
+			case 5:
+				cout<<"\nDisplaying list elements: \n";
+				s.display(head);
+				break;
+			case 6:
+				exit(0);
+		}
+	} while (ch!=6);
+
+	return 0;
+}

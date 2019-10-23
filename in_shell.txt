@@ -1,0 +1,86 @@
+#include<iostream>
+using namespace std;
+class Sort{
+    int n,i,j;
+    float a[];
+
+    public:
+    Sort(float b[],int N){
+        n=N;
+        for(i=0;i<n;i++)
+            a[i]=b[i];
+    }// Constructor
+
+    void insertion_sort(){
+        float elem;
+        for(i=0;i<n;i++){
+            elem=a[i];
+            j=i;
+            while(j>0&&(a[j-1]>elem)){
+                a[j]=a[j-1];
+                j=j-1;
+            }
+            a[j]=elem;
+        }
+    }
+
+    void shell_sort(){
+        float flag,temp;
+        for(j=n/2;j>0;j=j/2){
+            flag=1;
+            while(flag==1){
+                flag=0;
+                for(i=0;i<n-j;i++){
+                    if(a[i]>a[i+j]){
+                        temp=a[i];
+                        a[i]=a[i+j];
+                        a[i+j]=temp;
+                        flag=1;
+                    }
+                }
+            }
+        }
+    }
+
+    void display(){
+        for(i=0;i<n;i++)
+            cout<<a[i]<<"\t";
+        cout<<"\n";
+        cout<<"\nTop five scores: \t";
+        for(i=n-1;i>=n-5;i--)
+            cout<<a[i]<<"\t";
+        cout<<"\n";
+    }
+};
+
+int main(){
+    int ch,n,i;
+
+    cout<<"\nHow many elements do you want to sort? ";
+    cin>>n;
+
+    float a[n];
+
+    cout<<"\nEnter an unsorted data ";
+    for(i=0;i<n;i++)
+        cin>>a[i];
+    
+    Sort s(a,n);
+
+    while(1){
+        cout<<"\n\n----------Sorting Using Insertion and Shell Sort---------\n"
+            <<"\n1. Insertion Sort"
+            <<"\n2. Shell Sort"
+            <<"\n3. Exit"
+            <<"\n. Choose a sorting technique ";
+        cin>>ch;
+
+        switch(ch){
+            case 1:s.insertion_sort();s.display();break;
+            case 2:s.shell_sort();s.display();break;
+            case 3:exit(0);break;
+            default:cout<<"\nInvalid Option!";break;
+        }
+    }
+    return 0;
+}
