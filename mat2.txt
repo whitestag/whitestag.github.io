@@ -1,0 +1,176 @@
+#include<iostream>
+#include<cstdlib>
+#define max 10
+using namespace std;
+
+class Mat
+{
+    public: 
+        int i, j, k, row, col;
+        int flag=0;
+        int matA[max][max], matB[max][max], matC[max][max];
+        void accept_matrix();
+        void transpose();
+        void Addition();
+        void Subtraction();
+        void Multiplication();
+};
+
+void Mat::accept_matrix()
+{
+    cout<<"How many rows and column in matrix: ";
+    cin>>row>>col;
+    cout<<"\n Enter the 1st Matrix: ";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cin>>matA[i][j];
+        }
+    }
+    cout<<"\n 1st matrix\n";
+    for(i=0;i<row;i++)
+    { 
+        for(j=0;j<col;j++)
+        {
+            cout<<matA[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+
+    cout<<"\n Enter the 2nd Matrix: ";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cin>>matB[i][j];
+        }
+    }
+    cout<<"\n 2nd matrix\n";
+    for(i=0;i<row;i++)
+    { 
+        for(j=0;j<col;j++)
+        {
+            cout<<matB[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+
+void Mat::transpose()
+{
+    int ch;
+do
+{   
+    cout<<"\n 1. Transpose 1st Matrix"
+        <<"\n 2. Transpose 2nd Matrix"
+        <<"\n 3. Exit";
+    cin>>ch;
+    switch(ch)
+    {
+        case 1:
+            for(i=0;i<row;i++)
+            {
+                for(j=0;j<col;j++)
+                {
+                    cout<<matA[j][i]<<"\t";
+                }
+                cout<<"\n";
+            }
+            break;
+        case 2:
+            for(i=0;i<row;i++)
+            {
+                for(j=0;j<col;j++)
+                {
+                    cout<<matB[j][i]<<"\t";
+                }
+                cout<<"\n";
+            }
+            break;   
+        case 3:
+            break;
+    }
+}while(ch!=3);
+}
+
+void Mat::Addition()
+{
+    cout<<"\n The Addition of two matrix are: \n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<matA[i][j]+matB[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+void Mat::Subtraction()
+{
+    cout<<"\n The Subtraction of two matrix are: \n";
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<matA[i][j]-matB[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+}
+
+void Mat::Multiplication()
+{
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            matC[i][j]=0;
+            for(k=0;k<col;k++)
+            {
+                matC[i][j]=(matC[i][k]+(matA[i][k]*matB[k][j]));
+            }
+        }
+    }
+    for(i=0;i<row;i++)
+    {
+        for(j=0;j<col;j++)
+        {
+            cout<<matC[i][j]<<"\t";;
+        }
+        cout<<"\n";
+    }
+}
+
+int main()
+{
+    Mat m;
+    int ch;
+    do
+    {
+        cout<<"\n 1. Enter 2 Matrix"
+            <<"\n 2. Transpose of matrix"
+            <<"\n 3. Addition of two matrix"
+            <<"\n 4. Subtraction"
+            <<"\n 5. Multiplication"
+            <<"\n 6. Exit"
+            <<"\n Enter your choice";
+        cin>>ch;
+
+        switch(ch)
+        {
+            case 1: m.accept_matrix();
+                break;
+            case 2: m.transpose();
+                break;
+            case 3: m.Addition();
+                break;
+            case 4: m.Subtraction();
+                break;
+            case 5: m.Multiplication();
+                break;
+            case 6: exit(0);
+        }
+    }while(ch!=6);
+    return 0;
+}

@@ -1,0 +1,139 @@
+#include<stdio.h>
+
+void compute(int a[3][3], int b[3][3]){
+    // addition, difference & multiplication
+    int i,j;
+    // addition
+    printf("\nAddition of the Matrices: \n");
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            printf("%d \t",a[i][j]+b[i][j]);
+        }
+        printf("\n");
+    }
+
+    // difference
+    printf("\nDifference Between Two Matrices: \n");
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            printf("%d \t",a[i][j]-b[i][j]);
+        }
+        printf("\n");
+    }
+
+    // multiplication
+    int pro[3][3],k,add;
+    printf("\nMultiplication of Two 3x3 Matrices: \n");
+    for(i=0;i<3;i++){
+        int c=0;
+        for(j=0;j<3;j++){
+            add=0;
+            for(k=0;k<3;k++){
+                add=add+(a[i][k]*b[k][j]);
+            }
+            pro[i][c++]=add;
+        }
+    }
+
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            printf("%d \t",pro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void transpose(int a[3][3]){
+    int i,j;
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            printf("%d \t",a[j][i]);
+        }
+        printf("\n");
+    }
+}
+
+void sum_of_diagonal(int a[3][3]){
+    // calculate the sum of diagonal elements
+    int i,j,sum=0;
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            if(i==j)
+                sum+=a[i][j];
+        }
+    }
+    printf("\n%d",sum);
+}
+
+void upp(int a[3][3]){
+    // determine whether the matrix is upper triangular or not
+    int i,j,c=0;
+    for(i=1;i<3;i++){
+        for(j=0;j<i;j++){
+            if(a[i][j]!=0)
+                c++;
+        }
+    }
+
+    if(c==0)
+        printf("\nThe Matrix is Upper Triangular.\n");
+    else
+        printf("\nThe Matrix is Not Upper Triangular.\n");
+}
+
+void main()
+{
+    int ch,i,j,x=1;
+    int m[3][3],n[3][3];
+
+    printf("\n\n***MATRIX OPERATIONS***\n\n");
+
+    printf("\nEnter the matrix: \n");
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            scanf("%d",&m[i][j]);
+        }
+    }
+
+    while(x){
+        printf("\n\n*****MATRIX OPERATIONS*****\n\n");
+        printf("\n1. Compute: Addition, Multiplication & Difference");
+        printf("\n2. Compute the Transpose of a Matrix");
+        printf("\n3. Compute the Sum of Diagonal Elements of a Matrix");
+        printf("\n4. Determine The Upper Triangular of a Matrix");
+        printf("\n5. Exit");
+
+        printf("\n\nEnter the choice ");
+        scanf("%d",&ch);
+
+        switch(ch){
+            case 1:printf("\nEnter the matrix: \n");
+                for(i=0;i<3;i++){
+                    for(j=0;j<3;j++){
+                        scanf("%d",&n[i][j]);
+                    }
+                } // Matrix values accepted.
+
+                printf("\nSum, Difference & Multiplication of Matrix is: \n");
+                compute(m,n);
+                break;
+
+            case 2:printf("\nTranspose of a Matrix is: \n");
+                transpose(m);
+                break;
+            
+            case 3:printf("\nDiagonal of a Matrix is: \n");
+                sum_of_diagonal(m);
+                break;
+            
+            case 4:printf("\nDetermine Matrix is Triangular or Not: \n");
+                upp(m);
+                break;
+            
+            case 5:x=0;
+                break;
+            
+            default:printf("\nWrong choice.\n");
+        }
+    }
+}
