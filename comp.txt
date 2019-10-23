@@ -1,0 +1,182 @@
+#include<iostream>
+using namespace std;
+
+class node{
+    int data;
+    node *next;
+    node *prev;
+    
+    public:
+    node *create(node *head){
+        head=new node;
+        head->data=0;
+        head->prev=NULL;
+        head->next=NULL;
+        return head;
+    }
+
+    void insert_val(node *head, int x){
+        node *nw,*temp;
+        temp=head;
+        nw=create(nw);
+        nw->data=x;
+        while(temp->next!=NULL)
+            temp=temp->next;
+        temp->next=nw;
+        nw->prev=temp;
+        head->data++;
+    }
+
+    void insert_at_begin(node *head, int x){
+        node *nw,*temp;
+        temp=head;
+        nw=create(nw);
+        nw->data=x;
+        if(head->next==NULL){
+            head->next=nw;
+            nw->prev=head;
+        }else{
+            nw->next=head->next;
+            head->next->prev=nw;
+            head->next=nw;
+            nw->prev=head;
+        }
+        head->data++;
+    }
+
+    node *ones_compliment(node *head){
+        node *temp,*ones;
+        ones=create(ones);
+        temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            if(temp->data==0)
+                insert_val(ones,1);
+            else
+                insert_val(ones,0);
+        }
+        return ones;
+    }
+
+    node *twos_compliment(node *head){
+        node *temp,*twos;
+        temp=head;
+        twos=create(twos);
+        int carry=1;
+        while(temp->next!=NULL)
+            temp=temp->next;
+        while(temp->prev!=NULL){
+            if(temp->data==1&&carry==1){
+                insert_at_begin(twos,0);
+            }else if(temp->data==0&&carry==1){
+                insert_at_begin(twos,1);
+                carry=0;
+            }else{
+                insert_at_begin(twos,temp->data);
+            }
+            temp=temp->prev;
+        }
+        return twos;
+    }
+
+    void add(node *head1, node *head2){
+        node *h1=head1,*h2=head2;
+        node *ans=create(ans);
+        int carry=0;
+        while(h1->next!=NULL)
+            h1=h1->next;
+        while(h2->next!=NULL)
+            h2=h2->next;
+        while(h1->prev!=NULL){
+            insert_at_begin(ans,(h1->data+h2->data+carry)%2);
+            carry=(h1->data+h2->data)/2;
+            h1=h1->prev;
+            h2=h2->prev;
+        }
+        if(carry==1)
+            insert_at_begin(ans,1);
+
+        display(ans);
+    }
+
+    void display(node *head){
+        node *temp;
+        temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            cout<<temp->data<<"\t";
+        }
+    }
+};
+
+int main(){
+    int c,ch,i,j=1;
+    node s;
+    node *x,*y,*onex,*oney,*twox,*twoy;
+    x=s.create(x);
+    y=s.create(y);
+    onex=s.create(onex);
+    oney=s.create(oney);
+    twox=s.create(twox);
+    twoy=s.create(twoy);
+
+    while(j){
+        cout<<"\nBinary Operations\n";
+        cout<<"\n----------------------\n";
+        cout<<"\n1. Enter two binary numbers."
+            <<"\n2. One's compliment"
+            <<"\n3. Two's Compliment"
+            <<"\n4. Binary Addition"
+            <<"\n5. Exit";
+        cout<<"\nEnter the choice ";
+        cin>>ch;
+
+        switch(ch){
+            case 1:
+                cout<<"\nEnter the first binary number in list ";
+                for(i=1;i<=4;i++){
+                    cin>>c;
+                    s.insert_val(x,c);
+                }
+                cout<<endl<<"First number is ";
+                s.display(x);
+
+                cout<<"\nEnter the second binary number in list ";
+                for(i=1;i<=4;i++){
+                    cin>>c;
+                    s.insert_val(y,c);
+                }
+                cout<<endl<<"Second number is ";
+                s.display(y);
+                break;
+
+            case 2:
+                onex=s.ones_compliment(x);
+                cout<<"\nOne's compliment of first number ";
+                s.display(onex);
+                // cout<<"\nAccessed";break;
+                oney=s.ones_compliment(y);
+                cout<<"\n\nOne's compliment of second number ";
+                s.display(oney);
+                break;
+
+            case 3:
+                twox=s.twos_compliment(onex);
+                cout<<"\nTwo's compliment of first number ";
+                s.display(twox);
+                twoy=s.twos_compliment(oney);
+                cout<<"\nTwo's compliment of second number ";
+                s.display(twoy);
+                break;
+            
+            case 4:
+                s.add(x,y);
+                break;
+            
+            case 5:j=0;break;
+            default:cout<<"\nWrong Choice!";
+        }
+    }
+
+    return 0;
+}
